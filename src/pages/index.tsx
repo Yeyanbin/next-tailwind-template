@@ -1,5 +1,7 @@
 import Image from 'next/image'
 import { Inter } from 'next/font/google'
+import getMenu from '@/apis/getMenu';
+import { IBasePageProps } from '@/types/page';
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -115,4 +117,19 @@ export default function Home() {
       </div>
     </main>
   )
+}
+
+export async function getServerSideProps({ req, res }: any) {
+
+  const menu = await getMenu(req, res);
+  const pageProps: IBasePageProps = {
+    menu: menu,
+    user: '测试',
+    hasHeader: false,
+    hasMenu: false
+  };
+
+  return {
+    props: pageProps
+  }
 }
